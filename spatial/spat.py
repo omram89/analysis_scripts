@@ -38,8 +38,26 @@ def load_ems_events(path=None, low_memory=True, delim=None):
 
 final_df = load_ems_events('/home/om/Downloads/NetApp_dataset/20170522-SystemA/systemA', True,',')
 
+final_df['shelf'] = pd.Series([], dtype=object)
+
+#final_df.to_csv('/home/om/Downloads/data_figures/final_df.csv',sep=',')
+#print(len(final_df.index))
+err_cnt = len(final_df.index)
+n_err_cnt = 8 * err_cnt // 10
+print(n_err_cnt)
+
+#cnt_plt = final_df.groupby("bay").ids.agg(lambda x:len(x.unique()))
+
+#pd.value_counts(final_df['bay']).plot(kind="bar")
+#sr = pd.value_counts(final_df['bay'])
+sr = pd.value_counts(final_df['shelf'])
+sr.plot(kind="bar")
+print(sr)
+
 #print(final_df.head(1000))
-final_df.hist(column='bay', bins=24)
+#final_df.hist(column='bay', bins=24)
+#final_df.hist(column='bay', bins=division)
+#plt.axis('auto')
 #bay_fig = bay_hist.get_figure()
 #bay_fig.savefig('./bay_hist.pdf')
 #bay_hist.plot()
