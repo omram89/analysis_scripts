@@ -54,6 +54,29 @@ final_df = load_ems_events('/home/om/Downloads/NetApp_dataset/20170522-SystemA/s
 #final_df['shelf'] = pd.Series([], dtype=object)
 #final_df = final_df[final_df.shelf != '?']
 final_df['shelf'] = final_df['shelf'].astype(np.uint64)
+final_df['timestamp'] = pd.to_datetime(final_df['timestamp'], format='%Y-%m-%dT%H:%M:%S:%f')
+#print(final_df['timestamp'])
+#print(final_df.index)
+#gb1 = final_df.groupby(final_df['timestamp'].dt.date,final_df['nodeName']).count()
+#final_df.sort_values(['nodeName','timestamp'],inplace=True)
+#final_df.set_index('timestamp').groupby([pd.TimeGrouper(freq='D'), 'nodeName']).count().to_csv('/home/om/Downloads/data_figures/gb_ts_node_cnt.csv',sep=',')
+
+#gb1 = final_df.set_index('timestamp').groupby([pd.TimeGrouper(freq='D'), 'nodeName']).count()
+
+#gb2 = final_df.set_index('timestamp').groupby([pd.Grouper(freq='D'),'nodeName','stack','shelf','bay','dev']).count().to_csv('/home/om/Downloads/data_figures/gb_ts_node_all_cnt.csv',sep=',')
+
+gb3 = final_df.set_index('timestamp').groupby([pd.Grouper(freq='H'),'eventType','nodeName','stack','shelf','bay','dev']).count().to_csv('/home/om/Downloads/data_figures/gb_tsH_err_all_cnt.csv',sep=',')
+
+#test = pd.pivot_table(gb1, index='timestamp', columns='nodeName', values='seqID')
+#test = test.fillna(method='pad')
+#test = test.fillna(method='bfill')
+
+#test.plot(style='.')
+#plt.show()
+
+#final_df.groupby()
+#print(gb1)
+#print(final_df.dtypes)
 #final_df.to_csv('/home/om/Downloads/data_figures/final_df_raid.csv',sep=',')
 #final_df.sort_values(['eventType','nodeName','stack','shelf','bay'],inplace=True)
 #gb1.last().sort_values('nodeName').to_csv('/home/om/Downloads/data_figures/gb_evnt_node.csv',sep=',')
@@ -68,10 +91,10 @@ final_df['shelf'] = final_df['shelf'].astype(np.uint64)
 #pd.value_counts(final_df['bay']).plot(kind="bar")
 #sr = pd.value_counts(final_df['bay'])
 #sr = pd.value_counts(final_df['shelf'])
-sr = pd.value_counts(final_df['raidGroup'])
+#sr = pd.value_counts(final_df['raidGroup'])
 #sr.plot(kind="bar")
 #print(sr)
-sr.to_csv('/home/om/Downloads/data_figures/raid_plot.csv',',')
+#sr.to_csv('/home/om/Downloads/data_figures/raid_plot.csv',',')
 
 #print(final_df.head(1000))
 #final_df.hist(column='bay', bins=24)
