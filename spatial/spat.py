@@ -5,6 +5,7 @@ import numpy  as np
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 #sys.path.insert(0, '/home/om/Downloads/netapp_scripts/commons')
 #import dataloader
@@ -55,6 +56,19 @@ final_df = load_ems_events('/home/om/Downloads/NetApp_dataset/20170522-SystemA/s
 #final_df = final_df[final_df.shelf != '?']
 final_df['shelf'] = final_df['shelf'].astype(np.uint64)
 final_df['timestamp'] = pd.to_datetime(final_df['timestamp'], format='%Y-%m-%dT%H:%M:%S:%f')
+
+gb1 = final_df.groupby(['nodeName', 'stack','shelf']).count().to_csv('/home/om/Downloads/data_figures/fig115_new.csv',sep=',')
+
+#gb1 = final_df.groupby(['nodeName', 'stack']).count().to_csv('/home/om/Downloads/data_figures/fig116.csv',sep=',')
+
+#gb1 = final_df.groupby(['nodeName', 'stack']).count().to_csv('/home/om/Downloads/data_figures/fig121.csv',sep=',')
+
+#gb1 = final_df.groupby(['shelf','bay']).count().to_csv('/home/om/Downloads/data_figures/fig111.csv',sep=',')
+
+#gb1 = final_df.groupby(['nodeName','stack','shelf']).to_csv('/home/om/Downloads/data_figures/fig114.csv',sep=',')
+
+#final_df.to_csv('/home/om/Downloads/data_figures/final_df_all.csv',sep=',')
+
 #print(final_df['timestamp'])
 #print(final_df.index)
 #gb1 = final_df.groupby(final_df['timestamp'].dt.date,final_df['nodeName']).count()
@@ -65,7 +79,7 @@ final_df['timestamp'] = pd.to_datetime(final_df['timestamp'], format='%Y-%m-%dT%
 
 #gb2 = final_df.set_index('timestamp').groupby([pd.Grouper(freq='D'),'nodeName','stack','shelf','bay','dev']).count().to_csv('/home/om/Downloads/data_figures/gb_ts_node_all_cnt.csv',sep=',')
 
-gb3 = final_df.set_index('timestamp').groupby([pd.Grouper(freq='H'),'eventType','nodeName','stack','shelf','bay','dev']).count().to_csv('/home/om/Downloads/data_figures/gb_tsH_err_all_cnt.csv',sep=',')
+#gb3 = final_df.set_index('timestamp').groupby([pd.Grouper(freq='H'),'eventType','nodeName','stack','shelf','bay','dev']).count().to_csv('/home/om/Downloads/data_figures/gb_tsH_err_all_cnt.csv',sep=',')
 
 #test = pd.pivot_table(gb1, index='timestamp', columns='nodeName', values='seqID')
 #test = test.fillna(method='pad')
@@ -104,4 +118,14 @@ gb3 = final_df.set_index('timestamp').groupby([pd.Grouper(freq='H'),'eventType',
 #bay_fig.savefig('./bay_hist.pdf')
 #bay_hist.plot()
 #plt.show()
+
+## Heat Map code - Begins
+
+#htmap_list = [[0,4,0,95],[198,0,268,0],[122,0,0,0],[0,77,335,0],[0,186,0,0],[202,0,0,260]]
+#htmap_df = pd.DataFrame(htmap_list)
+#sns.heatmap(htmap_df, cmap='Reds', fmt="g", annot=True)
+#sns.heatmap(htmap_df, cmap='Reds')
+#plt.show()
+
+## Heat Map code - Ends
 
